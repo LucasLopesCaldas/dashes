@@ -1,3 +1,11 @@
+#!/bin/bash
+
+if [ $1 ];
+then
+	mkdir $1
+	cd $1
+fi
+
 echo Initializing node project...
 npm init -y
 echo Installing GTS...
