@@ -6,9 +6,9 @@ then
 	cd $1
 fi
 
-echo Initializing node project...
+echo $'===> Initializing node project\n'
 npm init -y
-echo Installing GTS...
+echo $'===> Installing GTS\n'
 npm i gts --save-dev
-echo Initializing GTS project...
+echo $'\n===> Initializing GTS project\n'
 npx gts init

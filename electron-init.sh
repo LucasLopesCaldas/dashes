@@ -44,7 +44,7 @@ app.on("window-all-closed", () => {
 });
 `'
 
-echo Initialize node project...
+echo $'===> Initialize node project\n'
 npm init -y
 
 node -e "
@@ -56,13 +56,13 @@ node -e "
 	require('fs').writeFileSync('package.json', JSON.stringify(pkg, null, 2));
 "
 
-echo Installing electron...
+echo $'\n===> Installing electron\n'
 npm install --save-dev electron
 
-echo Creating project files...
+echo $'\n===> Creating project files\n'
 node -e "
 require('fs').writeFileSync('index.html', $INDEX);
 
 require('fs').writeFileSync('main.js', $MAIN);
 "
-
+echo $'\n===> Created!\n'
