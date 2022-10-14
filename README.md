@@ -22,7 +22,7 @@ These tasks will be performed by the node package [auto-dash](https://github.com
 
 ### To list tasks:
 ```
-npx auto-dash list
+npx auto-dash list <?task args>
 ```
 
 ### To run a task:
