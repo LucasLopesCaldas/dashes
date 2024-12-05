@@ -6,7 +6,7 @@ if [ $1 ]; then
     cd $1
 fi
 
-echo $'===> Initializing cargo project\n'
+sudo echo $'===> Initializing cargo project\n'
 cargo init
 
 
@@ -27,10 +27,12 @@ opt-level = 1
 # Enable high optimizations for dependencies (incl. Bevy), but not for our code
 [profile.dev.package."*"]
 opt-level = 3
-
-[dependencies]
-bevy = { version = "0.13.0", features = ["dynamic_linking"] }
 EOL
+
+cargo add bevy
+
+echo $'===> Installing dependencies\n'
+sudo apt-get install -y g++ pkg-config libx11-dev libasound2-dev libudev-dev libxkbcommon-x11-0
 
 echo $'===> Adding simple example code\n'
 cat <<EOL >| src/main.rs
@@ -54,8 +56,20 @@ mkdir .cargo
 cat <<EOL > ./.cargo/config.toml
 [target.x86_64-unknown-linux-gnu]
 linker = "clang"
-rustflags = ["-C", "link-arg=-fuse-ld=lld"]
+rustflags = ["-C", "link-arg=-fuse-ld=/usr/bin/mold", "-Zshare-generics=y"]
+
+[unstable]
+codegen-backend = true
+
+[profile.dev]
+codegen-backend = "cranelift"
+
+[profile.dev.package."*"]
+codegen-backend = "llvm"
 EOL
+
+echo $'===> Installing Cranelift\n'
+rustup component add rustc-codegen-cranelift-preview --toolchain nightly
 
 echo $'===> Creating rust-toolchain.toml\n'
 cat <<EOL > rust-toolchain.toml
